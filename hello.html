@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Cleaning Schedule</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top */
+            min-height: 100vh;
+            padding: 20px; /* Add some padding around the content */
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            padding: 2.5rem; /* Increased padding */
+            box-sizing: border-box;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners for cards */
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Card shadow */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space between content and frequency */
+            height: 100%; /* Ensure cards fill grid cell height */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .emoji {
+            font-size: 3rem; /* Larger emoji */
+            margin-bottom: 0.75rem;
+        }
+        .item-name {
+            font-weight: 600; /* Semi-bold */
+            font-size: 1.125rem; /* Larger text */
+            color: #334155; /* Darker text for names */
+        }
+        .frequency {
+            font-size: 0.95rem; /* Slightly smaller for frequency */
+            color: #4b5563; /* Grayish text */
+            margin-top: 0.5rem;
+            line-height: 1.4; /* Improve readability */
+        }
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .language-toggle button {
+            background-color: #6366f1; /* Primary brand color */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px; /* Pill shape */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+            margin: 0 0.5rem;
+        }
+        .language-toggle button:hover {
+            background-color: #4f46e5; /* Darker on hover */
+            transform: translateY(-1px);
+        }
+        .language-toggle button.active {
+            background-color: #4f46e5;
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+            }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            .grid-cols-4 {
+                grid-template-columns: repeat(1, 1fr); /* 1 column on small mobiles */
+            }
+            .emoji {
+                font-size: 2.5rem;
+            }
+            .item-name {
+                font-size: 1rem;
+            }
+            .frequency {
+                font-size: 0.85rem;
+            }
+            h1 {
+                font-size: 1.75rem; /* Smaller title on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">
+            Home Cleaning Schedule
+        </h1>
 
+        <!-- Language Toggle Buttons -->
+        <div class="language-toggle">
+            <button id="englishBtn" class="active">English</button>
+            <button id="spanishBtn">Español</button>
+        </div>
+
+        <div id="cleaning-items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Cleaning items will be populated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const cleaningData = [
+            {
+                emoji: '�',
+                en: { name: 'Pillows', freq: 'every 3-6 months' },
+                es: { name: 'Almohadas', freq: 'cada 3-6 meses' }
+            },
+            {
+                emoji: '📏', /* Representing baseboards */
+                en: { name: 'Baseboards', freq: '1 month' },
+                es: { name: 'Zócalos/Rodapiés', freq: '1 mes' }
+            },
+            {
+                emoji: '🚿',
+                en: { name: 'Bath Towels', freq: '1 week' },
+                es: { name: 'Toallas de Baño', freq: '1 semana' }
+            },
+            {
+                emoji: '🌀',
+                en: { name: 'Ceiling Fan', freq: '1 month' },
+                es: { name: 'Ventilador de Techo', freq: '1 mes' }
+            },
+            {
+                emoji: '🛏️',
+                en: { name: 'Bed Sheets', freq: '1 week' },
+                es: { name: 'Sábanas', freq: '1 semana' }
+            },
+            {
+                emoji: '☁️', /* Representing mattress */
+                en: { name: 'Mattress', freq: 'every 6 months' },
+                es: { name: 'Colchón', freq: 'cada 6 meses' }
+            },
+            {
+                emoji: '⌨️',
+                en: { name: 'Keyboard', freq: '1 week' },
+                es: { name: 'Teclado', freq: '1 semana' }
+            },
+            {
+                emoji: '💡', /* Representing light switch */
+                en: { name: 'Light Switch', freq: '1 week' },
+                es: { name: 'Interruptor de Luz', freq: '1 semana' }
+            },
+            {
+                emoji: '🧊', /* Representing fridge */
+                en: { name: 'Fridge', freq: '1 week, deep clean every 3-4 months' },
+                es: { name: 'Nevera/Refrigerador', freq: '1 semana, limpieza profunda cada 3-4 meses' }
+            },
+            {
+                emoji: '🚽',
+                en: { name: 'Toilet', freq: '1 week' },
+                es: { name: 'Inodoro', freq: '1 semana' }
+            },
+            {
+                emoji: '🛋️', /* Representing curtains/drapes */
+                en: { name: 'Curtains/Drapes', freq: '3-6 months' },
+                es: { name: 'Cortinas', freq: '3-6 meses' }
+            },
+            {
+                emoji: '🚿', /* Another shower head emoji, or can reuse the first one */
+                en: { name: 'Shower Head', freq: '1 month' },
+                es: { name: 'Cabezal de Ducha', freq: '1 mes' }
+            },
+            {
+                emoji: '💧', /* Representing sink */
+                en: { name: 'Sink', freq: '1 week' },
+                es: { name: 'Fregadero', freq: '1 semana' }
+            },
+            {
+                emoji: '🍳', /* Representing microwave */
+                en: { name: 'Microwave', freq: '1 week' },
+                es: { name: 'Microondas', freq: '1 semana' }
+            },
+            {
+                emoji: '🔥', /* Representing inside oven */
+                en: { name: 'Inside Oven', freq: '3-6 months' },
+                es: { name: 'Interior del Horno', freq: '3-6 meses' }
+            },
+            {
+                emoji: '🧶', /* Representing carpet */
+                en: { name: 'Carpet', freq: '6 months' },
+                es: { name: 'Alfombra', freq: '6 meses' }
+            }
+        ];
+
+        const cleaningGrid = document.getElementById('cleaning-items-grid');
+        const englishBtn = document.getElementById('englishBtn');
+        const spanishBtn = document.getElementById('spanishBtn');
+
+        let currentLanguage = 'en'; // Default language
+
+        // Function to render cleaning items based on current language
+        function renderCleaningItems() {
+            cleaningGrid.innerHTML = ''; // Clear existing items
+            cleaningData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card'; // Tailwind classes for styling
+
+                card.innerHTML = `
+                    <div class="emoji">${item.emoji}</div>
+                    <div class="item-name">${item[currentLanguage].name}</div>
+                    <div class="frequency">${item[currentLanguage].freq}</div>
+                `;
+                cleaningGrid.appendChild(card);
+            });
+        }
+
+        // Event listeners for language toggle buttons
+        englishBtn.addEventListener('click', () => {
+            currentLanguage = 'en';
+            renderCleaningItems();
+            englishBtn.classList.add('active');
+            spanishBtn.classList.remove('active');
+        });
+
+        spanishBtn.addEventListener('click', () => {
+            currentLanguage = 'es';
+            renderCleaningItems();
+            spanishBtn.classList.add('active');
+            englishBtn.classList.remove('active');
+        });
+
+        // Initial render when the page loads
+        document.addEventListener('DOMContentLoaded', renderCleaningItems);
+    </script>
+</body>
+</html>
+�
